@@ -7,6 +7,7 @@ from .views import (
     JobRequiredSkillListCreateView,
     JobRequiredSkillDetailView,
     JobEligibilityCheckView,
+    AdminJobListView,
 )
 
 
@@ -17,7 +18,11 @@ urlpatterns = [
         JobListCreateView.as_view(),
         name="job-list-create",
     ),
-
+path(
+    "admin/",
+    AdminJobListView.as_view(),
+    name="admin-job-list",
+),
     path(
         "<int:pk>/",
         JobDetailView.as_view(),

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from drf_spectacular.utils import extend_schema
 # Create your views here.
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
@@ -10,7 +10,7 @@ from .serializers import (
     StudentSkillSerializer,
 )
 
-
+@extend_schema(tags=["Skills"])
 class SkillListCreateView(generics.ListCreateAPIView):
 
     queryset = Skill.objects.all().order_by("name")
@@ -24,7 +24,7 @@ class SkillListCreateView(generics.ListCreateAPIView):
 
         serializer.save()
 
-
+@extend_schema(tags=["Skills"])
 class StudentSkillListCreateView(generics.ListCreateAPIView):
 
     serializer_class = StudentSkillSerializer
@@ -44,7 +44,7 @@ class StudentSkillListCreateView(generics.ListCreateAPIView):
             student=self.request.user
         )
 
-
+@extend_schema(tags=["Skills"])
 class StudentSkillDeleteView(generics.DestroyAPIView):
 
     serializer_class = StudentSkillSerializer

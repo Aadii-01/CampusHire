@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from drf_spectacular.utils import extend_schema_field
 from .models import (
 	StudentProfile, 
 	Education, 
@@ -201,6 +201,14 @@ class ResumeSerializer(serializers.ModelSerializer):
 
         return file
 
+class StudentDashboardSkillSerializer(serializers.Serializer):
+
+    id = serializers.IntegerField()
+    skill_id = serializers.IntegerField()
+    skill_name = serializers.CharField()
+    proficiency = serializers.CharField()
+
+
 class StudentDashboardSerializer(serializers.Serializer):
 
     profile = serializers.SerializerMethodField()
@@ -227,10 +235,12 @@ class StudentDashboardSerializer(serializers.Serializer):
 
     active_resume = serializers.SerializerMethodField()
 
+    @extend_schema_field(StudentProfileSerializer)
     def get_profile(self, obj):
 
         return StudentProfileSerializer(obj).data
 
+    @extend_schema_field(StudentDashboardSkillSerializer(many=True))
     def get_skills(self, obj):
 
         student = obj.user
@@ -246,7 +256,7 @@ class StudentDashboardSerializer(serializers.Serializer):
                 "skill"
             ).all()
         ]
-
+    @extend_schema_field(ResumeSerializer)
     def get_active_resume(self, obj):
 
         resume = obj.resumes.filter(

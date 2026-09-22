@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from applications.models import Application, Interview
+from applications.models import Application, Interview, Offer
 
 
 class ApplicationCreateSerializer(serializers.ModelSerializer):
@@ -100,13 +100,17 @@ class ApplicationCreateSerializer(serializers.ModelSerializer):
                     or profile.cgpa < eligibility.min_cgpa
                 )
             ):
-                failed_criteria.append("Minimum CGPA requirement not met.")
+                failed_criteria.append(
+                    "Minimum CGPA requirement not met."
+                )
 
             if (
                 eligibility.max_backlogs is not None
                 and profile.backlogs > eligibility.max_backlogs
             ):
-                failed_criteria.append("Maximum backlog requirement not met.")
+                failed_criteria.append(
+                    "Maximum backlog requirement not met."
+                )
 
             if (
                 eligibility.graduation_year is not None
@@ -134,12 +138,15 @@ class ApplicationCreateSerializer(serializers.ModelSerializer):
                 for student_skill in user.skills.select_related("skill").all()
             }
 
-            for required_skill in job.required_skills.select_related("skill").all():
+            for required_skill in job.required_skills.select_related(
+                "skill"
+            ).all():
                 skill_name = required_skill.skill.name.lower()
 
                 if skill_name not in student_skills:
                     failed_criteria.append(
-                        f"Missing required skill: {required_skill.skill.name}."
+                        f"Missing required skill: "
+                        f"{required_skill.skill.name}."
                     )
                     continue
 
@@ -180,6 +187,7 @@ class ApplicationCreateSerializer(serializers.ModelSerializer):
             student=request.user,
             **validated_data
         )
+
 
 class ApplicationStatusUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -255,8 +263,8 @@ class InterviewSerializer(serializers.ModelSerializer):
             "meeting_link",
             "interviewer",
             "notes",
-	"result",
-	"feedback",
+            "result",
+            "feedback",
             "status",
             "created_at",
             "updated_at",
@@ -266,99 +274,102 @@ class InterviewSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
             "updated_at",
-        ]	
+        ]
 
     def validate(self, attrs):
-	    from django.utils import timezone
+        from django.utils import timezone
 
-	    # Creation: application must be shortlisted
-	    if self.instance is None:
-	        application = attrs["application"]
+        # Creation: application must be shortlisted
+        if self.instance is None:
+            application = attrs["application"]
 
-	        if application.status != Application.Status.SHORTLISTED:
-	            raise serializers.ValidationError(
-	                "Interviews can only be scheduled for shortlisted applications."
-	            )
+            if application.status != Application.Status.SHORTLISTED:
+                raise serializers.ValidationError(
+                    "Interviews can only be scheduled for "
+                    "shortlisted applications."
+                )
 
-	    # If scheduled_at is being changed, it must remain in the future
-	    if "scheduled_at" in attrs:
-	        if attrs["scheduled_at"] <= timezone.now():
-	            raise serializers.ValidationError(
-	                "Interview must be scheduled for a future date and time."
-	            )
+        # If scheduled_at is being changed, it must remain in the future
+        if "scheduled_at" in attrs:
+            if attrs["scheduled_at"] <= timezone.now():
+                raise serializers.ValidationError(
+                    "Interview must be scheduled for a future date and time."
+                )
 
-	    interview_type = attrs.get(
-	        "interview_type",
-	        getattr(
-	            self.instance,
-	            "interview_type",
-	            Interview.InterviewType.ONLINE,
-	        ),
-	    )
-
-	    meeting_link = attrs.get(
-	        "meeting_link",
-	        getattr(self.instance, "meeting_link", ""),
-	    )
-
-	    location = attrs.get(
-	        "location",
-	        getattr(self.instance, "location", ""),
-	    )
-
-	    if (
-	        interview_type == Interview.InterviewType.ONLINE
-	        and not meeting_link
-	    ):
-	        raise serializers.ValidationError(
-	            {
-	                "meeting_link": (
-	                    "Meeting link is required for online interviews."
-	                )
-	            }
-	        )
-
-	    if (
-	        interview_type == Interview.InterviewType.OFFLINE
-	        and not location
-	    ):
-	        raise serializers.ValidationError(
-	            {
-	                "location": (
-	                    "Location is required for offline interviews."
-	                )
-	            }
-	        )
-	        # Results can only be recorded for completed interviews
-	    if "result" in attrs or "feedback" in attrs:
-       	        current_status = (
-            self.instance.status
-            if self.instance is not None
-            else Interview.Status.SCHEDULED
+        interview_type = attrs.get(
+            "interview_type",
+            getattr(
+                self.instance,
+                "interview_type",
+                Interview.InterviewType.ONLINE,
+            ),
         )
 
-	    if current_status != Interview.Status.COMPLETED:
-                raise serializers.ValidationError(
-                "Interview result and feedback can only be recorded "
-                "after the interview is completed."
-            )
-		
-	    if "result" in attrs:
-        	allowed_results = {
-            "PASS",
-            "FAIL",
-            "ON_HOLD",
-        	}
+        meeting_link = attrs.get(
+            "meeting_link",
+            getattr(self.instance, "meeting_link", ""),
+        )
 
-        	if attrs["result"] not in allowed_results:
-            		raise serializers.ValidationError(
+        location = attrs.get(
+            "location",
+            getattr(self.instance, "location", ""),
+        )
+
+        if (
+            interview_type == Interview.InterviewType.ONLINE
+            and not meeting_link
+        ):
+            raise serializers.ValidationError(
                 {
-                    "result": (
-                        "Result must be one of: PASS, FAIL, ON_HOLD."
+                    "meeting_link": (
+                        "Meeting link is required for online interviews."
                     )
                 }
             )
-	    return attrs
+
+        if (
+            interview_type == Interview.InterviewType.OFFLINE
+            and not location
+        ):
+            raise serializers.ValidationError(
+                {
+                    "location": (
+                        "Location is required for offline interviews."
+                    )
+                }
+            )
+
+        # Results can only be recorded for completed interviews
+        if "result" in attrs or "feedback" in attrs:
+            current_status = (
+                self.instance.status
+                if self.instance is not None
+                else Interview.Status.SCHEDULED
+            )
+
+            if current_status != Interview.Status.COMPLETED:
+                raise serializers.ValidationError(
+                    "Interview result and feedback can only be recorded "
+                    "after the interview is completed."
+                )
+
+        if "result" in attrs:
+            allowed_results = {
+                "PASS",
+                "FAIL",
+                "ON_HOLD",
+            }
+
+            if attrs["result"] not in allowed_results:
+                raise serializers.ValidationError(
+                    {
+                        "result": (
+                            "Result must be one of: PASS, FAIL, ON_HOLD."
+                        )
+                    }
+                )
+
+        return attrs
 
 
 class InterviewStatusUpdateSerializer(serializers.ModelSerializer):
@@ -400,3 +411,54 @@ class InterviewStatusUpdateSerializer(serializers.ModelSerializer):
             )
 
         return value
+
+
+class OfferSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Offer
+        fields = [
+            "id",
+            "application",
+            "designation",
+            "ctc",
+            "joining_date",
+            "offer_expiry_date",
+            "employment_type",
+            "location",
+            "notes",
+            "created_at",
+            "updated_at",
+        ]
+
+        read_only_fields = [
+            "id",
+            "created_at",
+            "updated_at",
+        ]
+
+    def validate(self, attrs):
+
+        application = attrs["application"]
+
+        if application.status != Application.Status.SELECTED:
+            raise serializers.ValidationError(
+                "An offer can only be created for a selected application."
+            )
+
+        if hasattr(application, "offer"):
+            raise serializers.ValidationError(
+                "An offer already exists for this application."
+            )
+
+        if attrs["offer_expiry_date"] < attrs["joining_date"]:
+            raise serializers.ValidationError(
+                "Offer expiry date cannot be before the joining date."
+            )
+
+        if attrs["ctc"] <= 0:
+            raise serializers.ValidationError(
+                "CTC must be greater than zero."
+            )
+
+        return attrs

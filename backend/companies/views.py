@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from drf_spectacular.utils import extend_schema
 # Create your views here.
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
@@ -14,7 +14,7 @@ from .serializers import (
 # ============================================================
 # COMPANY
 # ============================================================
-
+@extend_schema(tags=["Companies"])
 class CompanyListCreateView(
     generics.ListCreateAPIView
 ):
@@ -36,7 +36,7 @@ class CompanyListCreateView(
 
         serializer.save()
 
-
+@extend_schema(tags=["Companies"])
 class CompanyDetailView(
     generics.RetrieveUpdateDestroyAPIView
 ):
@@ -69,7 +69,7 @@ class CompanyDetailView(
 # ============================================================
 # RECRUITER PROFILE
 # ============================================================
-
+@extend_schema(tags=["Companies"])
 class RecruiterProfileCreateView(
     generics.CreateAPIView
 ):
@@ -95,7 +95,7 @@ class RecruiterProfileCreateView(
             user=self.request.user
         )
 
-
+@extend_schema(tags=["Companies"])
 class RecruiterProfileView(
     generics.RetrieveUpdateAPIView
 ):

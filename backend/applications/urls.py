@@ -11,6 +11,9 @@ from .views import (
     AdminInterviewListView,
 AdminInterviewUpdateView,
     AdminInterviewStatusUpdateView,
+    AdminOfferCreateView,
+AdminApplicationListView,
+AdminDashboardView,
 )
 
 
@@ -34,11 +37,6 @@ path(
     "<int:pk>/status/",
     AdminApplicationStatusUpdateView.as_view(),
     name="admin-application-status-update",
-),
-path(
-    "interviews/",
-    AdminInterviewCreateView.as_view(),
-    name="admin-interview-create",
 ),
 path(
     "interviews/",
@@ -70,5 +68,19 @@ path(
     AdminInterviewStatusUpdateView.as_view(),
     name="admin-interview-status-update",
 ),
-
+path(
+    "offers/",
+    AdminOfferCreateView.as_view(),
+    name="admin-offer-create",
+),
+path(
+    "admin/",
+    AdminApplicationListView.as_view(),
+    name="admin-application-list",
+),
+path(
+    "admin/dashboard/",
+    AdminDashboardView.as_view(),
+    name="admin-dashboard",
+),
 ]

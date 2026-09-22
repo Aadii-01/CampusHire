@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
 import os
 from dotenv import load_dotenv
 
@@ -45,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    "drf_spectacular",
     'corsheaders',
     'accounts',
     'students',
@@ -75,7 +75,24 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "CampusHire API",
+    "DESCRIPTION": "REST API for the CampusHire campus recruitment management platform.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+"ENUM_NAME_OVERRIDES": {
+    "JobStatusEnum": "jobs.models.Job.Status",
+    "ApplicationStatusEnum": "applications.models.Application.Status",
+    "InterviewStatusEnum": "applications.models.Interview.Status",
+    "StudentSkillProficiencyEnum": "skills.models.StudentSkill.Proficiency",
+    "JobRequiredProficiencyEnum": "jobs.models.JobRequiredSkill.RequiredProficiency",
+},
+}
+
 
 ROOT_URLCONF = 'config.urls'
 

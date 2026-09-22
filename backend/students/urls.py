@@ -13,6 +13,7 @@ ResumeListCreateView,
 ResumeDetailView,
 ResumeActivateView,
 StudentDashboardView,
+    AdminStudentListView,
 )
 
 urlpatterns = [
@@ -80,5 +81,10 @@ path(
     "dashboard/",
     StudentDashboardView.as_view(),
     name="student-dashboard",
+),
+path(
+    "admin/",
+    AdminStudentListView.as_view(),
+    name="admin-student-list",
 ),
 ]

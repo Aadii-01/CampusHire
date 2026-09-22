@@ -1,0 +1,3518 @@
+openapi: 3.0.3
+info:
+  title: CampusHire API
+  version: 1.0.0
+  description: REST API for the CampusHire campus recruitment management platform.
+paths:
+  /api/v1/applications/:
+    get:
+      operationId: v1_applications_list
+      tags:
+      - Applications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationCreate'
+          description: ''
+    post:
+      operationId: v1_applications_create
+      tags:
+      - Applications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ApplicationCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ApplicationCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationCreate'
+          description: ''
+  /api/v1/applications/{id}/:
+    get:
+      operationId: v1_applications_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Applications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationCreate'
+          description: ''
+  /api/v1/applications/{id}/status/:
+    put:
+      operationId: v1_applications_status_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Admin / TPO
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationStatusUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ApplicationStatusUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ApplicationStatusUpdateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationStatusUpdate'
+          description: ''
+    patch:
+      operationId: v1_applications_status_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Admin / TPO
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedApplicationStatusUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedApplicationStatusUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedApplicationStatusUpdateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationStatusUpdate'
+          description: ''
+  /api/v1/applications/admin/:
+    get:
+      operationId: v1_applications_admin_list
+      tags:
+      - Admin / TPO
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationCreate'
+          description: ''
+  /api/v1/applications/admin/dashboard/:
+    get:
+      operationId: v1_applications_admin_dashboard_retrieve
+      tags:
+      - Admin / TPO
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/applications/interviews/:
+    post:
+      operationId: v1_applications_interviews_create
+      tags:
+      - Interviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InterviewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InterviewRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interview'
+          description: ''
+  /api/v1/applications/interviews/{id}/:
+    put:
+      operationId: v1_applications_interviews_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Interviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InterviewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InterviewRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interview'
+          description: ''
+    patch:
+      operationId: v1_applications_interviews_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Interviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interview'
+          description: ''
+  /api/v1/applications/interviews/{id}/status/:
+    put:
+      operationId: v1_applications_interviews_status_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Interviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewStatusUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InterviewStatusUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InterviewStatusUpdateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterviewStatusUpdate'
+          description: ''
+    patch:
+      operationId: v1_applications_interviews_status_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Interviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewStatusUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewStatusUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewStatusUpdateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterviewStatusUpdate'
+          description: ''
+  /api/v1/applications/interviews/admin/:
+    get:
+      operationId: v1_applications_interviews_admin_list
+      tags:
+      - Interviews
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Interview'
+          description: ''
+  /api/v1/applications/interviews/recruiter/:
+    get:
+      operationId: v1_applications_interviews_recruiter_list
+      tags:
+      - Interviews
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Interview'
+          description: ''
+  /api/v1/applications/interviews/student/:
+    get:
+      operationId: v1_applications_interviews_student_list
+      tags:
+      - Interviews
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Interview'
+          description: ''
+  /api/v1/applications/job/{job_id}/:
+    get:
+      operationId: v1_applications_job_list
+      parameters:
+      - in: path
+        name: job_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Applications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationCreate'
+          description: ''
+  /api/v1/applications/offers/:
+    post:
+      operationId: v1_applications_offers_create
+      tags:
+      - Offers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OfferRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OfferRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+          description: ''
+  /api/v1/auth/me/:
+    get:
+      operationId: v1_auth_me_retrieve
+      tags:
+      - Authentication
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/v1/auth/register/:
+    post:
+      operationId: v1_auth_register_create
+      tags:
+      - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+  /api/v1/auth/token/:
+    post:
+      operationId: v1_auth_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/v1/auth/token/refresh/:
+    post:
+      operationId: v1_auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/v1/companies/:
+    get:
+      operationId: v1_companies_list
+      tags:
+      - Companies
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Company'
+          description: ''
+    post:
+      operationId: v1_companies_create
+      tags:
+      - Companies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CompanyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CompanyRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+          description: ''
+  /api/v1/companies/{id}/:
+    get:
+      operationId: v1_companies_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Companies
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+          description: ''
+    put:
+      operationId: v1_companies_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Companies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CompanyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CompanyRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+          description: ''
+    patch:
+      operationId: v1_companies_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Companies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCompanyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCompanyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCompanyRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+          description: ''
+    delete:
+      operationId: v1_companies_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Companies
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/companies/recruiter/profile/:
+    get:
+      operationId: v1_companies_recruiter_profile_retrieve
+      tags:
+      - Companies
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecruiterProfile'
+          description: ''
+    put:
+      operationId: v1_companies_recruiter_profile_update
+      tags:
+      - Companies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecruiterProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecruiterProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecruiterProfileRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecruiterProfile'
+          description: ''
+    patch:
+      operationId: v1_companies_recruiter_profile_partial_update
+      tags:
+      - Companies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRecruiterProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRecruiterProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRecruiterProfileRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecruiterProfile'
+          description: ''
+  /api/v1/companies/recruiter/profile/create/:
+    post:
+      operationId: v1_companies_recruiter_profile_create_create
+      tags:
+      - Companies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecruiterProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecruiterProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecruiterProfileRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecruiterProfile'
+          description: ''
+  /api/v1/jobs/:
+    get:
+      operationId: v1_jobs_list
+      tags:
+      - Jobs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+          description: ''
+    post:
+      operationId: v1_jobs_create
+      tags:
+      - Jobs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JobRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JobRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+          description: ''
+  /api/v1/jobs/{job_id}/eligibility/:
+    get:
+      operationId: v1_jobs_eligibility_retrieve
+      parameters:
+      - in: path
+        name: job_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobEligibility'
+          description: ''
+    post:
+      operationId: v1_jobs_eligibility_create
+      parameters:
+      - in: path
+        name: job_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobEligibilityRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JobEligibilityRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JobEligibilityRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobEligibility'
+          description: ''
+    patch:
+      operationId: v1_jobs_eligibility_partial_update
+      parameters:
+      - in: path
+        name: job_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedJobEligibilityRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedJobEligibilityRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedJobEligibilityRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobEligibility'
+          description: ''
+  /api/v1/jobs/{job_id}/eligibility/check/:
+    get:
+      operationId: v1_jobs_eligibility_check_retrieve
+      parameters:
+      - in: path
+        name: job_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/jobs/{job_id}/required-skills/:
+    get:
+      operationId: v1_jobs_required_skills_list
+      parameters:
+      - in: path
+        name: job_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobRequiredSkill'
+          description: ''
+    post:
+      operationId: v1_jobs_required_skills_create
+      parameters:
+      - in: path
+        name: job_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobRequiredSkillRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JobRequiredSkillRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JobRequiredSkillRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobRequiredSkill'
+          description: ''
+  /api/v1/jobs/{job_id}/required-skills/{id}/:
+    delete:
+      operationId: v1_jobs_required_skills_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: job_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/jobs/{id}/:
+    get:
+      operationId: v1_jobs_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+          description: ''
+    put:
+      operationId: v1_jobs_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JobRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JobRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+          description: ''
+    patch:
+      operationId: v1_jobs_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedJobRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedJobRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedJobRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+          description: ''
+    delete:
+      operationId: v1_jobs_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Jobs
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/jobs/admin/:
+    get:
+      operationId: v1_jobs_admin_list
+      tags:
+      - Admin / TPO
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+          description: ''
+  /api/v1/skills/:
+    get:
+      operationId: v1_skills_list
+      tags:
+      - Skills
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Skill'
+          description: ''
+    post:
+      operationId: v1_skills_create
+      tags:
+      - Skills
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkillRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SkillRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SkillRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Skill'
+          description: ''
+  /api/v1/skills/my/:
+    get:
+      operationId: v1_skills_my_list
+      tags:
+      - Skills
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentSkill'
+          description: ''
+    post:
+      operationId: v1_skills_my_create
+      tags:
+      - Skills
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentSkillRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentSkillRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StudentSkillRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentSkill'
+          description: ''
+  /api/v1/skills/my/{id}/:
+    delete:
+      operationId: v1_skills_my_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Skills
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/students/admin/:
+    get:
+      operationId: v1_students_admin_list
+      tags:
+      - Admin / TPO
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentProfile'
+          description: ''
+  /api/v1/students/dashboard/:
+    get:
+      operationId: v1_students_dashboard_retrieve
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentDashboard'
+          description: ''
+  /api/v1/students/education/:
+    get:
+      operationId: v1_students_education_list
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Education'
+          description: ''
+    post:
+      operationId: v1_students_education_create
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EducationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EducationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EducationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Education'
+          description: ''
+  /api/v1/students/education/{id}/:
+    get:
+      operationId: v1_students_education_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Education'
+          description: ''
+    put:
+      operationId: v1_students_education_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EducationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EducationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EducationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Education'
+          description: ''
+    patch:
+      operationId: v1_students_education_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEducationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEducationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEducationRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Education'
+          description: ''
+    delete:
+      operationId: v1_students_education_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/students/experience/:
+    get:
+      operationId: v1_students_experience_list
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Experience'
+          description: ''
+    post:
+      operationId: v1_students_experience_create
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperienceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ExperienceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ExperienceRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experience'
+          description: ''
+  /api/v1/students/experience/{id}/:
+    get:
+      operationId: v1_students_experience_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experience'
+          description: ''
+    put:
+      operationId: v1_students_experience_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperienceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ExperienceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ExperienceRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experience'
+          description: ''
+    patch:
+      operationId: v1_students_experience_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedExperienceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedExperienceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedExperienceRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experience'
+          description: ''
+    delete:
+      operationId: v1_students_experience_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/students/profile/:
+    get:
+      operationId: v1_students_profile_retrieve
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentProfile'
+          description: ''
+    put:
+      operationId: v1_students_profile_update
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StudentProfileRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentProfile'
+          description: ''
+    patch:
+      operationId: v1_students_profile_partial_update
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentProfileRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentProfile'
+          description: ''
+  /api/v1/students/profile/create/:
+    post:
+      operationId: v1_students_profile_create_create
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StudentProfileRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentProfile'
+          description: ''
+  /api/v1/students/projects/:
+    get:
+      operationId: v1_students_projects_list
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+          description: ''
+    post:
+      operationId: v1_students_projects_create
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+  /api/v1/students/projects/{id}/:
+    get:
+      operationId: v1_students_projects_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+    put:
+      operationId: v1_students_projects_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+    patch:
+      operationId: v1_students_projects_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProjectRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProjectRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProjectRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+    delete:
+      operationId: v1_students_projects_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/students/resumes/:
+    get:
+      operationId: v1_students_resumes_list
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resume'
+          description: ''
+    post:
+      operationId: v1_students_resumes_create
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resume'
+          description: ''
+  /api/v1/students/resumes/{id}/:
+    get:
+      operationId: v1_students_resumes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resume'
+          description: ''
+    put:
+      operationId: v1_students_resumes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resume'
+          description: ''
+    patch:
+      operationId: v1_students_resumes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedResumeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedResumeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedResumeRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resume'
+          description: ''
+    delete:
+      operationId: v1_students_resumes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/students/resumes/{id}/activate/:
+    put:
+      operationId: v1_students_resumes_activate_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResumeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resume'
+          description: ''
+    patch:
+      operationId: v1_students_resumes_activate_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedResumeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedResumeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedResumeRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resume'
+          description: ''
+components:
+  schemas:
+    ApplicationCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        job:
+          type: integer
+        resume:
+          type: integer
+          nullable: true
+        cover_letter:
+          type: string
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ApplicationStatusEnum'
+          readOnly: true
+        applied_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - applied_at
+      - id
+      - job
+      - status
+      - updated_at
+    ApplicationCreateRequest:
+      type: object
+      properties:
+        job:
+          type: integer
+        resume:
+          type: integer
+          nullable: true
+        cover_letter:
+          type: string
+      required:
+      - job
+    ApplicationStatusEnum:
+      enum:
+      - APPLIED
+      - UNDER_REVIEW
+      - SHORTLISTED
+      - INTERVIEW
+      - SELECTED
+      - REJECTED
+      - OFFERED
+      - OFFER_ACCEPTED
+      - OFFER_DECLINED
+      type: string
+      description: |-
+        * `APPLIED` - Applied
+        * `UNDER_REVIEW` - Under Review
+        * `SHORTLISTED` - Shortlisted
+        * `INTERVIEW` - Interview
+        * `SELECTED` - Selected
+        * `REJECTED` - Rejected
+        * `OFFERED` - Offered
+        * `OFFER_ACCEPTED` - Offer Accepted
+        * `OFFER_DECLINED` - Offer Declined
+    ApplicationStatusUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ApplicationStatusEnum'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - updated_at
+    ApplicationStatusUpdateRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ApplicationStatusEnum'
+    Company:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        website:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        industry:
+          type: string
+          maxLength: 100
+        location:
+          type: string
+          maxLength: 150
+        company_size:
+          type: string
+          maxLength: 50
+        logo:
+          type: string
+          format: uri
+          nullable: true
+        is_verified:
+          type: boolean
+          readOnly: true
+        recruiter_count:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - is_verified
+      - name
+      - recruiter_count
+      - updated_at
+    CompanyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+        website:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        industry:
+          type: string
+          maxLength: 100
+        location:
+          type: string
+          maxLength: 150
+        company_size:
+          type: string
+          maxLength: 50
+        logo:
+          type: string
+          format: binary
+          nullable: true
+      required:
+      - name
+    Education:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        institution:
+          type: string
+          maxLength: 200
+        degree:
+          type: string
+          maxLength: 100
+        field_of_study:
+          type: string
+          maxLength: 100
+        start_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        end_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        percentage:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
+        cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - degree
+      - field_of_study
+      - id
+      - institution
+      - start_year
+      - updated_at
+    EducationRequest:
+      type: object
+      properties:
+        institution:
+          type: string
+          minLength: 1
+          maxLength: 200
+        degree:
+          type: string
+          minLength: 1
+          maxLength: 100
+        field_of_study:
+          type: string
+          minLength: 1
+          maxLength: 100
+        start_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        end_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        percentage:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
+        cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
+      required:
+      - degree
+      - field_of_study
+      - institution
+      - start_year
+    Experience:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        company_name:
+          type: string
+          maxLength: 200
+        job_title:
+          type: string
+          maxLength: 150
+        location:
+          type: string
+          maxLength: 150
+        employment_type:
+          type: string
+          maxLength: 50
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - company_name
+      - created_at
+      - description
+      - id
+      - job_title
+      - start_date
+      - updated_at
+    ExperienceRequest:
+      type: object
+      properties:
+        company_name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        job_title:
+          type: string
+          minLength: 1
+          maxLength: 150
+        location:
+          type: string
+          maxLength: 150
+        employment_type:
+          type: string
+          maxLength: 50
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        description:
+          type: string
+          minLength: 1
+      required:
+      - company_name
+      - description
+      - job_title
+      - start_date
+    Interview:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        application:
+          type: integer
+        round:
+          type: string
+          maxLength: 100
+        interview_type:
+          $ref: '#/components/schemas/InterviewTypeEnum'
+        scheduled_at:
+          type: string
+          format: date-time
+        location:
+          type: string
+          maxLength: 255
+        meeting_link:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        interviewer:
+          type: string
+          maxLength: 255
+        notes:
+          type: string
+        result:
+          type: string
+          maxLength: 30
+        feedback:
+          type: string
+        status:
+          allOf:
+          - $ref: '#/components/schemas/InterviewStatusEnum'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - application
+      - created_at
+      - id
+      - round
+      - scheduled_at
+      - status
+      - updated_at
+    InterviewRequest:
+      type: object
+      properties:
+        application:
+          type: integer
+        round:
+          type: string
+          minLength: 1
+          maxLength: 100
+        interview_type:
+          $ref: '#/components/schemas/InterviewTypeEnum'
+        scheduled_at:
+          type: string
+          format: date-time
+        location:
+          type: string
+          maxLength: 255
+        meeting_link:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        interviewer:
+          type: string
+          maxLength: 255
+        notes:
+          type: string
+        result:
+          type: string
+          maxLength: 30
+        feedback:
+          type: string
+      required:
+      - application
+      - round
+      - scheduled_at
+    InterviewStatusEnum:
+      enum:
+      - SCHEDULED
+      - COMPLETED
+      - CANCELLED
+      type: string
+      description: |-
+        * `SCHEDULED` - Scheduled
+        * `COMPLETED` - Completed
+        * `CANCELLED` - Cancelled
+    InterviewStatusUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/InterviewStatusEnum'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - updated_at
+    InterviewStatusUpdateRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/InterviewStatusEnum'
+    InterviewTypeEnum:
+      enum:
+      - ONLINE
+      - OFFLINE
+      type: string
+      description: |-
+        * `ONLINE` - Online
+        * `OFFLINE` - Offline
+    Job:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        company:
+          type: integer
+          readOnly: true
+        company_name:
+          type: string
+          readOnly: true
+        recruiter:
+          type: integer
+          readOnly: true
+        recruiter_email:
+          type: string
+          format: email
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        employment_type:
+          $ref: '#/components/schemas/JobEmploymentTypeEnum'
+        work_mode:
+          $ref: '#/components/schemas/WorkModeEnum'
+        location:
+          type: string
+          maxLength: 150
+        salary_min:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        salary_max:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        application_deadline:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/JobStatusEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - application_deadline
+      - company
+      - company_name
+      - created_at
+      - description
+      - employment_type
+      - id
+      - recruiter
+      - recruiter_email
+      - title
+      - updated_at
+      - work_mode
+    JobEligibility:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        job:
+          type: integer
+          readOnly: true
+        min_cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
+        max_backlogs:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        graduation_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        allowed_departments: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - job
+      - updated_at
+    JobEligibilityRequest:
+      type: object
+      properties:
+        min_cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
+        max_backlogs:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        graduation_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        allowed_departments: {}
+    JobEmploymentTypeEnum:
+      enum:
+      - FULL_TIME
+      - PART_TIME
+      - INTERNSHIP
+      type: string
+      description: |-
+        * `FULL_TIME` - Full Time
+        * `PART_TIME` - Part Time
+        * `INTERNSHIP` - Internship
+    JobRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          minLength: 1
+        employment_type:
+          $ref: '#/components/schemas/JobEmploymentTypeEnum'
+        work_mode:
+          $ref: '#/components/schemas/WorkModeEnum'
+        location:
+          type: string
+          maxLength: 150
+        salary_min:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        salary_max:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        application_deadline:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/JobStatusEnum'
+      required:
+      - application_deadline
+      - description
+      - employment_type
+      - title
+      - work_mode
+    JobRequiredProficiencyEnum:
+      enum:
+      - BEGINNER
+      - INTERMEDIATE
+      - ADVANCED
+      type: string
+      description: |-
+        * `BEGINNER` - Beginner
+        * `INTERMEDIATE` - Intermediate
+        * `ADVANCED` - Advanced
+    JobRequiredSkill:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        job:
+          type: integer
+          readOnly: true
+        skill:
+          type: integer
+        skill_name:
+          type: string
+          readOnly: true
+        required_proficiency:
+          $ref: '#/components/schemas/JobRequiredProficiencyEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - job
+      - skill
+      - skill_name
+    JobRequiredSkillRequest:
+      type: object
+      properties:
+        skill:
+          type: integer
+        required_proficiency:
+          $ref: '#/components/schemas/JobRequiredProficiencyEnum'
+      required:
+      - skill
+    JobStatusEnum:
+      enum:
+      - DRAFT
+      - OPEN
+      - CLOSED
+      type: string
+      description: |-
+        * `DRAFT` - Draft
+        * `OPEN` - Open
+        * `CLOSED` - Closed
+    Offer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        application:
+          type: integer
+        designation:
+          type: string
+          maxLength: 150
+        ctc:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        joining_date:
+          type: string
+          format: date
+        offer_expiry_date:
+          type: string
+          format: date
+        employment_type:
+          $ref: '#/components/schemas/OfferEmploymentTypeEnum'
+        location:
+          type: string
+          maxLength: 255
+        notes:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - application
+      - created_at
+      - ctc
+      - designation
+      - id
+      - joining_date
+      - location
+      - offer_expiry_date
+      - updated_at
+    OfferEmploymentTypeEnum:
+      enum:
+      - FULL_TIME
+      - INTERNSHIP
+      - CONTRACT
+      type: string
+      description: |-
+        * `FULL_TIME` - Full Time
+        * `INTERNSHIP` - Internship
+        * `CONTRACT` - Contract
+    OfferRequest:
+      type: object
+      properties:
+        application:
+          type: integer
+        designation:
+          type: string
+          minLength: 1
+          maxLength: 150
+        ctc:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        joining_date:
+          type: string
+          format: date
+        offer_expiry_date:
+          type: string
+          format: date
+        employment_type:
+          $ref: '#/components/schemas/OfferEmploymentTypeEnum'
+        location:
+          type: string
+          minLength: 1
+          maxLength: 255
+        notes:
+          type: string
+      required:
+      - application
+      - ctc
+      - designation
+      - joining_date
+      - location
+      - offer_expiry_date
+    PatchedApplicationStatusUpdateRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ApplicationStatusEnum'
+    PatchedCompanyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+        website:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        industry:
+          type: string
+          maxLength: 100
+        location:
+          type: string
+          maxLength: 150
+        company_size:
+          type: string
+          maxLength: 50
+        logo:
+          type: string
+          format: binary
+          nullable: true
+    PatchedEducationRequest:
+      type: object
+      properties:
+        institution:
+          type: string
+          minLength: 1
+          maxLength: 200
+        degree:
+          type: string
+          minLength: 1
+          maxLength: 100
+        field_of_study:
+          type: string
+          minLength: 1
+          maxLength: 100
+        start_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        end_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        percentage:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
+        cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
+    PatchedExperienceRequest:
+      type: object
+      properties:
+        company_name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        job_title:
+          type: string
+          minLength: 1
+          maxLength: 150
+        location:
+          type: string
+          maxLength: 150
+        employment_type:
+          type: string
+          maxLength: 50
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        description:
+          type: string
+          minLength: 1
+    PatchedInterviewRequest:
+      type: object
+      properties:
+        application:
+          type: integer
+        round:
+          type: string
+          minLength: 1
+          maxLength: 100
+        interview_type:
+          $ref: '#/components/schemas/InterviewTypeEnum'
+        scheduled_at:
+          type: string
+          format: date-time
+        location:
+          type: string
+          maxLength: 255
+        meeting_link:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        interviewer:
+          type: string
+          maxLength: 255
+        notes:
+          type: string
+        result:
+          type: string
+          maxLength: 30
+        feedback:
+          type: string
+    PatchedInterviewStatusUpdateRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/InterviewStatusEnum'
+    PatchedJobEligibilityRequest:
+      type: object
+      properties:
+        min_cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+          nullable: true
+        max_backlogs:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        graduation_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        allowed_departments: {}
+    PatchedJobRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          minLength: 1
+        employment_type:
+          $ref: '#/components/schemas/JobEmploymentTypeEnum'
+        work_mode:
+          $ref: '#/components/schemas/WorkModeEnum'
+        location:
+          type: string
+          maxLength: 150
+        salary_min:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        salary_max:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        application_deadline:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/JobStatusEnum'
+    PatchedProjectRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          minLength: 1
+        technologies:
+          type: string
+          minLength: 1
+          description: Comma-separated technologies used in the project.
+          maxLength: 500
+        github_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        live_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+    PatchedRecruiterProfileRequest:
+      type: object
+      properties:
+        company:
+          type: integer
+        designation:
+          type: string
+          maxLength: 100
+        phone:
+          type: string
+          maxLength: 15
+        is_primary:
+          type: boolean
+    PatchedResumeRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 150
+        file:
+          type: string
+          format: binary
+        is_active:
+          type: boolean
+    PatchedStudentProfileRequest:
+      type: object
+      properties:
+        roll_number:
+          type: string
+          minLength: 1
+          maxLength: 50
+        phone:
+          type: string
+          maxLength: 15
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        gender:
+          type: string
+          maxLength: 20
+        department:
+          type: string
+          minLength: 1
+          maxLength: 100
+        graduation_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 2000
+        cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+        backlogs:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        bio:
+          type: string
+        profile_photo:
+          type: string
+          format: binary
+          nullable: true
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        technologies:
+          type: string
+          description: Comma-separated technologies used in the project.
+          maxLength: 500
+        github_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        live_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - description
+      - id
+      - technologies
+      - title
+      - updated_at
+    ProjectRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          minLength: 1
+        technologies:
+          type: string
+          minLength: 1
+          description: Comma-separated technologies used in the project.
+          maxLength: 500
+        github_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        live_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - description
+      - technologies
+      - title
+    RecruiterProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+        user_email:
+          type: string
+          format: email
+          readOnly: true
+        company:
+          type: integer
+        company_name:
+          type: string
+          readOnly: true
+        designation:
+          type: string
+          maxLength: 100
+        phone:
+          type: string
+          maxLength: 15
+        is_primary:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - company
+      - company_name
+      - created_at
+      - id
+      - updated_at
+      - user
+      - user_email
+    RecruiterProfileRequest:
+      type: object
+      properties:
+        company:
+          type: integer
+        designation:
+          type: string
+          maxLength: 100
+        phone:
+          type: string
+          maxLength: 15
+        is_primary:
+          type: boolean
+      required:
+      - company
+    Register:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - email
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - email
+      - password
+    Resume:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 150
+        file:
+          type: string
+          format: uri
+        version:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+        file_size:
+          type: integer
+          readOnly: true
+          nullable: true
+        uploaded_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - file
+      - file_size
+      - id
+      - updated_at
+      - uploaded_at
+      - version
+    ResumeRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 150
+        file:
+          type: string
+          format: binary
+        is_active:
+          type: boolean
+      required:
+      - file
+    RoleEnum:
+      enum:
+      - STUDENT
+      - RECRUITER
+      - ADMIN
+      type: string
+      description: |-
+        * `STUDENT` - Student
+        * `RECRUITER` - Recruiter
+        * `ADMIN` - Admin
+    Skill:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+    SkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required:
+      - name
+    StudentDashboard:
+      type: object
+      properties:
+        profile:
+          allOf:
+          - $ref: '#/components/schemas/StudentProfile'
+          readOnly: true
+        education:
+          type: array
+          items:
+            $ref: '#/components/schemas/Education'
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        experience:
+          type: array
+          items:
+            $ref: '#/components/schemas/Experience'
+        resumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resume'
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentDashboardSkill'
+          readOnly: true
+        profile_completion:
+          type: integer
+        active_resume:
+          allOf:
+          - $ref: '#/components/schemas/Resume'
+          readOnly: true
+      required:
+      - active_resume
+      - education
+      - experience
+      - profile
+      - profile_completion
+      - projects
+      - resumes
+      - skills
+    StudentDashboardSkill:
+      type: object
+      properties:
+        id:
+          type: integer
+        skill_id:
+          type: integer
+        skill_name:
+          type: string
+        proficiency:
+          type: string
+      required:
+      - id
+      - proficiency
+      - skill_id
+      - skill_name
+    StudentProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+        roll_number:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          maxLength: 15
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        gender:
+          type: string
+          maxLength: 20
+        department:
+          type: string
+          maxLength: 100
+        graduation_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 2000
+        cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+        backlogs:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        bio:
+          type: string
+        profile_photo:
+          type: string
+          format: uri
+          nullable: true
+        profile_completion:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - cgpa
+      - created_at
+      - department
+      - graduation_year
+      - id
+      - profile_completion
+      - roll_number
+      - updated_at
+      - user
+    StudentProfileRequest:
+      type: object
+      properties:
+        roll_number:
+          type: string
+          minLength: 1
+          maxLength: 50
+        phone:
+          type: string
+          maxLength: 15
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        gender:
+          type: string
+          maxLength: 20
+        department:
+          type: string
+          minLength: 1
+          maxLength: 100
+        graduation_year:
+          type: integer
+          maximum: 2147483647
+          minimum: 2000
+        cgpa:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+        backlogs:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        bio:
+          type: string
+        profile_photo:
+          type: string
+          format: binary
+          nullable: true
+      required:
+      - cgpa
+      - department
+      - graduation_year
+      - roll_number
+    StudentSkill:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        skill:
+          type: integer
+        skill_name:
+          type: string
+          readOnly: true
+        proficiency:
+          $ref: '#/components/schemas/JobRequiredProficiencyEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - skill
+      - skill_name
+    StudentSkillRequest:
+      type: object
+      properties:
+        skill:
+          type: integer
+        proficiency:
+          $ref: '#/components/schemas/JobRequiredProficiencyEnum'
+      required:
+      - skill
+    TokenObtainPair:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    TokenObtainPairRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+      required:
+      - access
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - refresh
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        is_active:
+          type: boolean
+          readOnly: true
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        is_verified:
+          type: boolean
+          readOnly: true
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_joined
+      - email
+      - id
+      - is_active
+      - is_verified
+    WorkModeEnum:
+      enum:
+      - ONSITE
+      - HYBRID
+      - REMOTE
+      type: string
+      description: |-
+        * `ONSITE` - Onsite
+        * `HYBRID` - Hybrid
+        * `REMOTE` - Remote
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

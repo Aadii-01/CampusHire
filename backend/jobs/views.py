@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from drf_spectacular.utils import extend_schema
 # Create your views here.
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
@@ -21,7 +21,7 @@ JobEligibilitySerializer,
     JobRequiredSkillSerializer,
 )
 
-
+@extend_schema(tags=["Jobs"])
 class JobListCreateView(
     generics.ListCreateAPIView
 ):
@@ -66,7 +66,51 @@ class JobListCreateView(
             recruiter=self.request.user,
         )
 
+@extend_schema(tags=["Admin / TPO"])
+class AdminJobListView(
+    generics.ListAPIView
+):
 
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+
+        if self.request.user.role != "ADMIN":
+            raise PermissionDenied(
+                "Only TPO/Admin users can view all jobs."
+            )
+
+        queryset = (
+            Job.objects
+            .select_related(
+                "company",
+                "recruiter",
+            )
+            .order_by("-created_at")
+        )
+
+        status = self.request.query_params.get(
+            "status"
+        )
+
+        company_id = self.request.query_params.get(
+            "company"
+        )
+
+        if status:
+            queryset = queryset.filter(
+                status=status
+            )
+
+        if company_id:
+            queryset = queryset.filter(
+                company_id=company_id
+            )
+
+        return queryset
+
+
+@extend_schema(tags=["Jobs"])
 class JobDetailView(
     generics.RetrieveUpdateDestroyAPIView
 ):
@@ -113,6 +157,7 @@ class JobDetailView(
 
         instance.delete()
 
+@extend_schema(tags=["Jobs"])
 class JobEligibilityView(
     generics.GenericAPIView
 ):
@@ -226,6 +271,8 @@ class JobEligibilityView(
             serializer.data
         )
 
+
+@extend_schema(tags=["Jobs"])
 class JobRequiredSkillListCreateView(
     generics.ListCreateAPIView
 ):
@@ -269,6 +316,7 @@ class JobRequiredSkillListCreateView(
         )
 
 
+@extend_schema(tags=["Jobs"])
 class JobRequiredSkillDetailView(
     generics.DestroyAPIView
 ):
@@ -296,6 +344,7 @@ class JobRequiredSkillDetailView(
         instance.delete()
 
 
+@extend_schema(tags=["Jobs"], responses=dict)
 class JobEligibilityCheckView(
     generics.GenericAPIView
 ):

@@ -146,3 +146,60 @@ class Interview(models.Model):
 
     def __str__(self):
         return f"{self.application} - {self.round}"
+
+class Offer(models.Model):
+
+    class EmploymentType(models.TextChoices):
+        FULL_TIME = "FULL_TIME", "Full Time"
+        INTERNSHIP = "INTERNSHIP", "Internship"
+        CONTRACT = "CONTRACT", "Contract"
+
+    application = models.OneToOneField(
+        Application,
+        on_delete=models.CASCADE,
+        related_name="offer",
+    )
+
+    designation = models.CharField(
+        max_length=150,
+    )
+
+    ctc = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+    )
+
+    joining_date = models.DateField()
+
+    offer_expiry_date = models.DateField()
+
+    employment_type = models.CharField(
+        max_length=20,
+        choices=EmploymentType.choices,
+        default=EmploymentType.FULL_TIME,
+    )
+
+    location = models.CharField(
+        max_length=255,
+    )
+
+    notes = models.TextField(
+        blank=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return (
+            f"Offer - {self.application.student.email} - "
+            f"{self.application.job.title}"
+        )

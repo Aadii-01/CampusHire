@@ -1,6 +1,7 @@
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
 
 from .models import (
     StudentProfile,
@@ -23,7 +24,7 @@ from .serializers import (
 # ============================================================
 # STUDENT PROFILE
 # ============================================================
-
+@extend_schema(tags=["Students"])
 class StudentProfileView(generics.RetrieveUpdateAPIView):
 
     serializer_class = StudentProfileSerializer
@@ -51,7 +52,7 @@ class StudentProfileView(generics.RetrieveUpdateAPIView):
 
         profile.update_profile_completion()
 
-
+@extend_schema(tags=["Students"])
 class StudentProfileCreateView(generics.CreateAPIView):
 
     serializer_class = StudentProfileSerializer
@@ -81,7 +82,7 @@ class StudentProfileCreateView(generics.CreateAPIView):
 # ============================================================
 # EDUCATION
 # ============================================================
-
+@extend_schema(tags=["Students"])
 class EducationListCreateView(
     generics.ListCreateAPIView
 ):
@@ -121,7 +122,7 @@ class EducationListCreateView(
 
         profile.update_profile_completion()
 
-
+@extend_schema(tags=["Students"])
 class EducationDetailView(
     generics.RetrieveUpdateDestroyAPIView
 ):
@@ -162,7 +163,7 @@ class EducationDetailView(
 # ============================================================
 # PROJECTS
 # ============================================================
-
+@extend_schema(tags=["Students"])
 class ProjectListCreateView(
     generics.ListCreateAPIView
 ):
@@ -202,7 +203,7 @@ class ProjectListCreateView(
 
         profile.update_profile_completion()
 
-
+@extend_schema(tags=["Students"])
 class ProjectDetailView(
     generics.RetrieveUpdateDestroyAPIView
 ):
@@ -243,7 +244,7 @@ class ProjectDetailView(
 # ============================================================
 # EXPERIENCE
 # ============================================================
-
+@extend_schema(tags=["Students"])
 class ExperienceListCreateView(
     generics.ListCreateAPIView
 ):
@@ -283,7 +284,7 @@ class ExperienceListCreateView(
 
         profile.update_profile_completion()
 
-
+@extend_schema(tags=["Students"])
 class ExperienceDetailView(
     generics.RetrieveUpdateDestroyAPIView
 ):
@@ -324,7 +325,7 @@ class ExperienceDetailView(
 # ============================================================
 # RESUMES
 # ============================================================
-
+@extend_schema(tags=["Students"])
 class ResumeListCreateView(
     generics.ListCreateAPIView
 ):
@@ -393,7 +394,7 @@ class ResumeListCreateView(
 
         profile.update_profile_completion()
 
-
+@extend_schema(tags=["Students"])
 class ResumeDetailView(
     generics.RetrieveUpdateDestroyAPIView
 ):
@@ -444,7 +445,7 @@ class ResumeDetailView(
 # ============================================================
 # ACTIVATE RESUME
 # ============================================================
-
+@extend_schema(tags=["Students"])
 class ResumeActivateView(
     generics.UpdateAPIView
 ):
@@ -495,6 +496,7 @@ class ResumeActivateView(
 
 
 #Student DashboardView
+@extend_schema(tags=["Students"])
 class StudentDashboardView(generics.RetrieveAPIView):
 
     serializer_class = StudentDashboardSerializer
@@ -551,3 +553,45 @@ class StudentDashboardView(generics.RetrieveAPIView):
             "resumes": serializer.data["resumes"],
             "active_resume": serializer.data["active_resume"],
         })
+
+
+# ============================================================
+# ADMIN / TPO STUDENT MANAGEMENT
+# ============================================================
+@extend_schema(tags=["Admin / TPO"])
+class AdminStudentListView(generics.ListAPIView):
+
+    serializer_class = StudentProfileSerializer
+
+    def get_queryset(self):
+
+        if self.request.user.role != "ADMIN":
+            raise PermissionDenied(
+                "Only TPO/Admin users can view all students."
+            )
+
+        queryset = (
+            StudentProfile.objects
+            .select_related("user")
+            .order_by("roll_number")
+        )
+
+        department = self.request.query_params.get(
+            "department"
+        )
+
+        graduation_year = self.request.query_params.get(
+            "graduation_year"
+        )
+
+        if department:
+            queryset = queryset.filter(
+                department__iexact=department
+            )
+
+        if graduation_year:
+            queryset = queryset.filter(
+                graduation_year=graduation_year
+            )
+
+        return queryset

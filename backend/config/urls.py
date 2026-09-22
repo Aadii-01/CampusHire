@@ -24,7 +24,23 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+)
+
+
 urlpatterns = [
+path(
+    "api/schema/",
+    SpectacularAPIView.as_view(),
+    name="schema",
+),
+path(
+    "api/docs/",
+    SpectacularSwaggerView.as_view(url_name="schema"),
+    name="swagger-ui",
+),
     path("admin/", admin.site.urls),
 
     path(
@@ -63,7 +79,6 @@ path(
     "api/v1/applications/",
     include("applications.urls"),
 ),
-
 ]
 if settings.DEBUG:
     urlpatterns += static(
